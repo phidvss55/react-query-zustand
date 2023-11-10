@@ -1,16 +1,21 @@
 import React, { memo } from "react";
 import { useCatStore } from "../../store/useCatStore";
+import { shallow } from "zustand/shallow";
+// import { increaseBigCats } from "../../store/useCatStore";
 
 const PostThree: React.FC = () => {
-  // const {
-  // cats: { bigCats },
-  // increaseBigCats,
-  // increaseSmallCats,
-  // } = useCatStore();
+  const { increaseBigCats, increaseSmallCats } = useCatStore();
 
-  // const smallCats = useCatStore((store) => store.cats.smallCats);
-  const increaseBigCats = useCatStore.use.increaseBigCats();
-  const increaseSmallCats = useCatStore.use.increaseSmallCats();
+  // const increaseBigCats = useCatStore.use.increaseBigCats();
+  // const increaseSmallCats = useCatStore.use.increaseSmallCats();
+
+  // const { increaseBigCats, increaseSmallCats } = useCatStore(
+  //   (state) => ({
+  //     increaseBigCats: state.increaseBigCats,
+  //     increaseSmallCats: state.increaseSmallCats,
+  //   }),
+  // shallow,
+  // );
 
   return (
     <div className="bg-green-100 text-center h-72 flex flex-col text-lg w-72">
@@ -36,4 +41,4 @@ const PostThree: React.FC = () => {
   );
 };
 
-export default memo(PostThree);
+export default PostThree;

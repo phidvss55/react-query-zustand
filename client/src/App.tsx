@@ -11,9 +11,9 @@ import Spinner from "./components/Spinner";
 import { useIsFetching, useIsMutating } from "@tanstack/react-query";
 import InfiniteLoad from "./pages/InfiniteLoad";
 import Tasks from "./pages/Tasks";
-import Posts from "./pages/Posts";
+import Cats from "./pages/Cats";
 
-const App = () => {
+const App: React.FC = () => {
   const router = useRoutes([
     {
       path: "/",
@@ -36,8 +36,8 @@ const App = () => {
       element: <Tasks />,
     },
     {
-      path: "/posts",
-      element: <Posts />,
+      path: "/cats",
+      element: <Cats />,
     },
     {
       path: "/products",

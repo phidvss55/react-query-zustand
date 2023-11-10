@@ -14,7 +14,6 @@ const PostOne: React.FC = () => {
     increaseSmallCats,
     summary,
   } = useCatStore();
-
   console.log(summary());
 
   return (

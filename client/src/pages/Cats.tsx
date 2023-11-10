@@ -4,7 +4,7 @@ import PostTwo from "../components/Post/PostTwo";
 import PostThree from "../components/Post/PostThree";
 import { useCatStore } from "../store/useCatStore";
 
-const Posts: React.FC = () => {
+const Cats: React.FC = () => {
   const { clearCats } = useCatStore();
 
   return (
@@ -27,4 +27,4 @@ const Posts: React.FC = () => {
   );
 };
 
-export default Posts;
+export default Cats;

@@ -51,15 +51,15 @@ export const useTasksStore = create<Tasks & Actions>()(
         tasks: mockTasks,
         draggedTask: null,
         removeAllTask: () => set((_) => ({ tasks: [] })),
-        addTask: async (title, state) =>
-          set(
-            (store) => ({ tasks: [...store.tasks, { title, state }] }),
-            false,
-            "addTask",
-          ),
+        addTask: (title, state) =>
+          set((store) => ({ tasks: [...store.tasks, { title, state }] })),
         deleteTask: (title) =>
-          produce((store) =>
-            store.tasks.filter((t: Task) => t.title !== title),
+          set(
+            produce((store) => {
+              store.tasks = store.tasks.filter((t: Task) => t.title !== title);
+            }),
+            false,
+            "tasks/deleteTask",
           ),
         setDraggedTask: (title) => set((_) => ({ draggedTask: title })),
         moveTask: (title, state) =>
