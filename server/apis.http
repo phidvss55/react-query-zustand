@@ -1,0 +1,12 @@
+# Create dummy data for `students` table
+POST http://localhost:5000/api/students/fake-students HTTP/1.1
+content-type: application/json
+
+
+################################
+POST http://localhost:5000/api/products HTTP/1.1
+content-type: application/json
+
+################################
+GET http://localhost:5000/api/products?skip=2&limit=10 HTTP/1.1
+content-type: application/json

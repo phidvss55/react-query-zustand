@@ -1,0 +1,8 @@
+{
+  "/customers/:id.get": "Xem nhân viên",
+  "/customers.post": "Tạo nhân viên",
+  "/customers/permissions.get": "Danh sách quyền hạn",
+  "/customers/:id/roles.post": "Cập nhật vai trò cho nhân viên",
+  "/roles/:id/permissions.post": "Cập nhật quyền cho vai trò",
+  "/roles/:id.get": "Xem vai trò"
+}
