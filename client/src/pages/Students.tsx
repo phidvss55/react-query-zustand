@@ -1,35 +1,45 @@
 // import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteStudent, getStudent, getStudents } from "../apis/student.api";
-// import { Students as StudentsType } from "../types/student.type";
+import { Students as StudentsType } from "../types/student.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useQueryString } from "../utils/utils";
 import classNames from "classnames";
 import { toast } from "react-toastify";
+import SkeletonLoader from "../components/SkeletonLoader";
+import { useEffect, useState } from "react";
 
 const LIMIT = 10;
 const Students = () => {
   // const [students, setStudents] = useState<StudentsType>([]);
-  // const [isLoading, setIsLoading] = useState<boolean>(true);
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [errors, setErrors] = useState<any>("");
 
   // useEffect(() => {
-  //   setIsLoading(true);
-  // getStudents(1, 20)
-  //   .then((res) => setStudents(res.data))
-  //   .finally(() => setIsLoading(false));
+  //   setLoading(true);
+  //   getStudents(1, 20)
+  //     .then((res) => {
+  //       setStudents(res.data.data);
+  //       setErrors(undefined);
+  //     })
+  //     .catch((e) => {
+  //       setStudents([]);
+  //       setErrors(e);
+  //     })
+  //     .finally(() => setLoading(false));
   // }, []);
 
   const queryString: { page?: string } = useQueryString();
   const page = Number(queryString.page) || 1;
   const queryClient = useQueryClient();
 
-  const results = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["students", page],
     queryFn: () => getStudents(page, LIMIT),
     keepPreviousData: true,
+    // refetchInterval: 1000,
+    // refetchOnWindowFocus: "always", // refetch on tab focus
   });
-
-  const { data, isLoading, isFetching } = results;
 
   const totalStudents = data?.data?.totalPages || 10;
   const totalPage = Math.ceil(totalStudents / 10);
@@ -53,7 +63,8 @@ const Students = () => {
   const onPrefetchStudent = (id: number) => {
     queryClient.prefetchQuery(["student", String(id)], {
       queryFn: () => getStudent(id),
-      staleTime: 1000 * 10,
+      // staleTime: 0 | Infinity | 1000 * 10,
+      // cacheTime: 1000 * 10,
     });
   };
 
@@ -133,24 +144,7 @@ const Students = () => {
         </div>
       </div>
 
-      {isLoading && (
-        <div role="status" className="mt-6 animate-pulse">
-          <div className="mb-4 h-4  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10 rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <div className="h-10  rounded bg-gray-200 dark:bg-gray-700" />
-          <span className="sr-only">Loading...</span>
-        </div>
-      )}
+      {isLoading && <SkeletonLoader />}
       {!isLoading && (
         <div className="relative mt-6 overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">

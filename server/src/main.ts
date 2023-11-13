@@ -33,11 +33,12 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const PORT = process.env.PORT;
+  console.log('PORT', PORT);
   await app.listen(PORT);
 
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
+  // if (module.hot) {
+  // module.hot.accept();
+  // module.hot.dispose(() => app.close());
+  // }
 }
 bootstrap();
