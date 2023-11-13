@@ -32,16 +32,22 @@ const Students: React.FC = () => {
   const page = Number(queryString.page) || 1;
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["students", page],
-    queryFn: () => getStudents(page, LIMIT),
+    queryFn: () => {
+      // const controller = new AbortController();
+      // setTimeout(() => {
+      //   controller.abort();
+      // }, 4000);
+      // return getStudents(page, LIMIT, controller.signal);
+      return getStudents(page, LIMIT);
+    },
     keepPreviousData: true,
+    // staleTime: 1000 * 10,
+    // retry: 3,
     // refetchInterval: 1000,
     // refetchOnWindowFocus: "always", // refetch on tab focus
-    select: (data) => {
-      console.log("data", data);
-      return data;
-    },
+    select: (data) => data,
   });
 
   const totalStudents = data?.data?.totalPages || 10;
@@ -80,23 +86,6 @@ const Students: React.FC = () => {
     });
   };
 
-  const studentsQuery = useQuery({
-    queryKey: ["students", page],
-    queryFn: () => {
-      const controller = new AbortController();
-      setTimeout(() => {
-        controller.abort();
-      }, 4000);
-      return getStudents(page, LIMIT, controller.signal);
-    },
-    keepPreviousData: true,
-    retry: 3,
-  });
-
-  const refetchStudents = () => {
-    studentsQuery.refetch();
-  };
-
   const cancelRequestStudents = () => {
     queryClient.cancelQueries({ queryKey: ["students", page] });
   };
@@ -124,7 +113,7 @@ const Students: React.FC = () => {
         <div className="mr-4">
           <button
             className="mt-6 rounded bg-pink-700 px-5 py-2 text-white"
-            onClick={() => refetchStudents()}
+            onClick={() => refetch()}
           >
             Refetch Students
           </button>

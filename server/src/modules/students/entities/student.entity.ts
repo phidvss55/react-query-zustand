@@ -2,6 +2,9 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
   name: 'students',
+  // orderBy: {
+  //   id: 'DESC',
+  // },
 })
 export class Student {
   @PrimaryGeneratedColumn()

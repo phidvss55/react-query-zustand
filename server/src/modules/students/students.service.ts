@@ -56,12 +56,15 @@ export class StudentService {
     }
   }
 
-  findAll(dto: ListStudentsDto) {
+  async findAll(dto: ListStudentsDto) {
     const take = Number(dto._limit) || 10;
     const page = Number(dto._page) || 1;
     const skip = (page - 1) * take;
 
     return this.studentRepository.findAndCount({
+      order: {
+        id: 'DESC',
+      },
       skip: skip,
       take: Number(dto._limit || 10),
     });
