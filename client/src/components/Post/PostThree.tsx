@@ -4,10 +4,9 @@ import { shallow } from "zustand/shallow";
 // import { increaseBigCats } from "../../store/useCatStore";
 
 const PostThree: React.FC = () => {
-  const { increaseBigCats, increaseSmallCats } = useCatStore();
-
-  // const increaseBigCats = useCatStore.use.increaseBigCats();
-  // const increaseSmallCats = useCatStore.use.increaseSmallCats();
+  // const { increaseBigCats, increaseSmallCats } = useCatStore();
+  const increaseBigCats = useCatStore.use.increaseBigCats();
+  const increaseSmallCats = useCatStore.use.increaseSmallCats();
 
   // const { increaseBigCats, increaseSmallCats } = useCatStore(
   //   (state) => ({

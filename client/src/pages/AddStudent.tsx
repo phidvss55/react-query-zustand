@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { isAxiosError } from "axios";
 
 const AddStudent: React.FunctionComponent = () => {
-  const [formState, setFormState] = useState<FormStateType>(initialFormState);
+  const [formState, setFormState] = useState<any>(initialFormState);
   const addMatch = useMatch("/students/add");
   const isAddMode = Boolean(addMatch);
   const { id } = useParams();
@@ -28,13 +28,16 @@ const AddStudent: React.FunctionComponent = () => {
   const studentQuery = useQuery({
     queryKey: ["student", id],
     queryFn: () => getStudent(id as string),
-    enabled: id !== undefined,
-    staleTime: 1000 * 10,
+    // enabled: id !== undefined,
+    // staleTime: 1000 * 10,
+    select: (data) => {
+      return data.data;
+    },
   });
 
   useEffect(() => {
     if (studentQuery.data) {
-      setFormState(studentQuery.data.data);
+      setFormState((studentQuery.data as any).data);
     }
   }, [studentQuery.data]);
 
@@ -45,6 +48,13 @@ const AddStudent: React.FunctionComponent = () => {
     onSuccess: (data) => {
       queryClient.setQueryData(["student", id], data);
     },
+    onError: (error) => {
+      //
+    },
+    onMutate: (mutations) => {
+      // before call mutation function
+    },
+    onSettled: (mutations) => {},
   });
 
   const errorForm: FormError = useMemo(() => {
@@ -64,7 +74,7 @@ const AddStudent: React.FunctionComponent = () => {
   const handleChange =
     (name: keyof FormStateType) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setFormState((prev) => ({ ...prev, [name]: event.target.value }));
+      setFormState((prev: any) => ({ ...prev, [name]: event.target.value }));
       if (addStudentMutation.data || addStudentMutation.error) {
         addStudentMutation.reset();
       }

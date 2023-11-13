@@ -43,7 +43,8 @@ const Students: React.FC = () => {
       return getStudents(page, LIMIT);
     },
     keepPreviousData: true,
-    // staleTime: 1000 * 10,
+    // staleTime: Infinity,
+    // cacheTime: 1000 * 5,
     // retry: 3,
     // refetchInterval: 1000,
     // refetchOnWindowFocus: "always", // refetch on tab focus
@@ -164,7 +165,7 @@ const Students: React.FC = () => {
                 <tr
                   key={student.id}
                   className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
-                  onMouseEnter={() => onPrefetchStudent(student.id)}
+                  // onMouseEnter={() => onPrefetchStudent(student.id)}
                 >
                   <td className="py-4 px-6">{student.id}</td>
                   <td className="py-4 px-6">

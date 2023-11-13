@@ -2,10 +2,10 @@ import React from "react";
 import PostOne from "../components/Post/PostOne";
 import PostTwo from "../components/Post/PostTwo";
 import PostThree from "../components/Post/PostThree";
-import { useCatStore } from "../store/useCatStore";
+// import { useCatStore } from "../store/useCatStore";
 
 const Cats: React.FC = () => {
-  const { clearCats } = useCatStore();
+  // const { clearCats } = useCatStore();
 
   return (
     <>
@@ -18,7 +18,7 @@ const Cats: React.FC = () => {
       <div className="mt-6">
         <button
           className="bg-slate-800 text-white px-4 py-2"
-          onClick={() => clearCats()}
+          // onClick={() => clearCats()}
         >
           Clear Cat Storage
         </button>
