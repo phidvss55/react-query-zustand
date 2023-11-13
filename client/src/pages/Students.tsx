@@ -1,16 +1,15 @@
-// import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteStudent, getStudent, getStudents } from "../apis/student.api";
 import { Students as StudentsType } from "../types/student.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useQueryString } from "../utils/utils";
+import { useQueryString } from "../hooks/useQueryString";
 import classNames from "classnames";
 import { toast } from "react-toastify";
 import SkeletonLoader from "../components/SkeletonLoader";
-import { useEffect, useState } from "react";
 
 const LIMIT = 10;
-const Students = () => {
+const Students: React.FC = () => {
   // const [students, setStudents] = useState<StudentsType>([]);
   // const [loading, setLoading] = useState<boolean>(true);
   // const [errors, setErrors] = useState<any>("");
@@ -39,6 +38,10 @@ const Students = () => {
     keepPreviousData: true,
     // refetchInterval: 1000,
     // refetchOnWindowFocus: "always", // refetch on tab focus
+    select: (data) => {
+      console.log("data", data);
+      return data;
+    },
   });
 
   const totalStudents = data?.data?.totalPages || 10;
