@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - '4321:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: my_database
+    volumes:
+      - my_database_data:/var/lib/postgresql/data
+
+volumes:
+  my_database_data:
