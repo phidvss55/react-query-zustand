@@ -3,7 +3,8 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const Dashboard: React.FC = () => {
   const queryClient = useQueryClient();
-  const result = queryClient.getQueryData<any>(["student", "1"]) || {};
+  const result = queryClient.getQueryData<any>(["students", 21]) || {};
+  console.log("result", result);
   const { data } = result;
 
   setTimeout(() => {

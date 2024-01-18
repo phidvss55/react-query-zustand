@@ -38,14 +38,14 @@ const Students: React.FC = () => {
       // const controller = new AbortController();
       // setTimeout(() => {
       //   controller.abort();
-      // }, 4000);
+      // }, 1000);
       // return getStudents(page, LIMIT, controller.signal);
       return getStudents(page, LIMIT);
     },
     keepPreviousData: true,
-    // staleTime: Infinity,
+    staleTime: Infinity,
     // cacheTime: 1000 * 5,
-    // retry: 3,
+    // retry: 10,
     // refetchInterval: 1000,
     // refetchOnWindowFocus: "always", // refetch on tab focus
     select: (data) => data,
@@ -60,7 +60,7 @@ const Students: React.FC = () => {
       toast.success(`Student removed successfully with id ${id}`);
       queryClient.invalidateQueries({
         // trigger to recall the api
-        queryKey: ["students", page],
+        queryKey: ["students"],
         exact: true,
       });
     },

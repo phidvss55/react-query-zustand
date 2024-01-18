@@ -50,4 +50,4 @@ const PostTwo: React.FC = () => {
   );
 };
 
-export default memo(PostTwo);
+export default PostTwo;
