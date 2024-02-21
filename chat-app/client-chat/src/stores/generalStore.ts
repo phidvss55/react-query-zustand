@@ -20,7 +20,6 @@ export const useGeneralStore = create<GeneralState & GeneralAction>()(
         isProfileSettingsModalOpen: false,
         isLoginModalOpen: false,
         isCreateRoomModalOpen: false,
-
         toggleProfileSettingsModal: () =>
           set((state) => ({
             isProfileSettingsModalOpen: !state.isProfileSettingsModalOpen,
@@ -40,6 +39,7 @@ export const useGeneralStore = create<GeneralState & GeneralAction>()(
     ),
     {
       name: "general-store",
+      getStorage: () => sessionStorage,
     }
   )
 );

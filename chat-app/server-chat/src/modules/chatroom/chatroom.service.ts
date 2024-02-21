@@ -47,6 +47,7 @@ export class ChatroomService {
         id: chatroomId,
       },
     });
+
     if (!existingChatroom) {
       throw new BadRequestException({ chatroomId: 'Chatroom does not exist' });
     }

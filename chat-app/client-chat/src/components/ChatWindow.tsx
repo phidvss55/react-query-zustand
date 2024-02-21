@@ -43,10 +43,12 @@ import { USER_STOPPED_TYPING_MUTATION } from "../graphql/mutations/UserStoppedTy
 import { ENTER_CHATROOM } from "../graphql/mutations/EnterChatroom";
 import { LEAVE_CHATROOM } from "../graphql/mutations/LeaveChatroom";
 import { GET_CHATROOMS_FOR_USER } from "../graphql/queries/GetChatroomForUser";
+import { useNotifyStore } from "../stores/notificationStore";
 
 const Chatwindow: React.FC = () => {
   const user = useUserStore((state) => state);
   const userId = useUserStore((state) => state.id);
+  const { setNotification } = useNotifyStore();
 
   const [typingUsers, setTypingUsers] = useState<User[]>([]);
   const [messageContent, setMessageContent] = useState("");
@@ -167,6 +169,7 @@ const Chatwindow: React.FC = () => {
   const handleEnter = async () => {
     await enterChatroom({ variables: { chatroomId } })
       .then((response) => {
+        console.log("response", response);
         if (response.data.enterChatroom) {
           console.log("Successfully entered chatroom!");
         }
@@ -214,6 +217,7 @@ const Chatwindow: React.FC = () => {
         )
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatroomId]);
 
   useEffect(() => {
@@ -221,7 +225,7 @@ const Chatwindow: React.FC = () => {
     return () => {
       window.removeEventListener("beforeunload", handleLeave);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -233,7 +237,7 @@ const Chatwindow: React.FC = () => {
     return () => {
       handleLeave();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatroomId]);
 
   const { data, loading } = useQuery<GetMessagesForChatroomQuery>(
@@ -252,6 +256,17 @@ const Chatwindow: React.FC = () => {
   }, [data?.getMessagesForChatroom]);
 
   const handleSendMessage = async () => {
+    if (messageContent === "") {
+      // do nothing
+      setNotification({
+        type: "warning",
+        duration: 3000,
+        message: "Message cannot be empty!",
+        show: true,
+      });
+      return;
+    }
+
     await sendMessage({
       variables: {
         chatroomId: chatroomId,

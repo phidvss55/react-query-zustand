@@ -5,6 +5,7 @@ import { Button, Center, Container, Group, Text } from "@mantine/core";
 
 const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
   const userId = useUserStore((state) => state.id);
+  console.log("userId,userId", userId);
   const toggleLoginModal = useGeneralStore((state) => state.toggleLoginModal);
 
   useEffect(() => {

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Navbar, Center, Stack, rem } from "@mantine/core";
+import { Navbar, Center, Stack, rem, Avatar } from "@mantine/core";
 import { useGeneralStore } from "../stores/generalStore";
 import {
   IconBrandMessenger,
   IconBrandWechat,
   IconLogin,
-  IconUser,
   IconUserCircle,
 } from "@tabler/icons-react";
 import NavbarLink from "./NavbarLink";
@@ -69,8 +68,8 @@ const Sidebar: React.FC = () => {
         <Stack justify="center" spacing={0}>
           {userId && (
             <NavbarLink
-              icon={IconUser}
-              label={"Profile(" + user.fullname + ")"}
+              avatar={<Avatar src={user.avatarUrl} />}
+              label={"Profile (" + user.fullname + ") "}
               onClick={toggleProfileSettingsModal}
             />
           )}

@@ -40,7 +40,7 @@ export class ChatroomResolver {
     nullable: true,
     resolve: (value) => value.user,
     filter: (payload, variables) => {
-      console.log('payload1', variables, payload.typingUserId);
+      console.log('payload1', payload, variables, payload.typingUserId);
       return variables.userId !== payload.typingUserId;
     },
   })
@@ -73,6 +73,7 @@ export class ChatroomResolver {
     @Context() context: { req: Request },
   ) {
     const user = await this.userService.getUser(context.req.user.sub);
+    console.log('before send', chatroomId);
     await this.pubSub.publish(`userStartedTyping.${chatroomId}`, {
       user,
       typingUserId: user.id,

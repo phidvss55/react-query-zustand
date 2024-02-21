@@ -19,9 +19,11 @@ export class LiveChatroomService {
     const existingUser = existingLiveUsers.find(
       (liveUser) => liveUser.id === user.id,
     );
+
     if (existingUser) {
       return;
     }
+
     await this.redisClient.sadd(
       `liveUsers:chatroom:${chatroomId}`,
       JSON.stringify(user),

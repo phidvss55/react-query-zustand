@@ -25,7 +25,7 @@ export class AuthService {
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token not found');
     }
-    let payload;
+    let payload = null;
 
     try {
       payload = this.jwtService.verify(refreshToken, {
@@ -34,6 +34,7 @@ export class AuthService {
     } catch (error) {
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
+
     const userExists = await this.prisma.user.findUnique({
       where: { id: payload.sub },
     });
@@ -42,16 +43,17 @@ export class AuthService {
       throw new BadRequestException('User no longer exists');
     }
 
-    const expiresIn = 15000;
+    const expiresIn = 1000;
     const expiration = Math.floor(Date.now() / 1000) + expiresIn;
+    // new Date(expiration * 1000) -> real time
     const accessToken = this.jwtService.sign(
       { ...payload, exp: expiration },
       {
         secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),
       },
     );
-    res.cookie('access_token', accessToken, { httpOnly: true });
 
+    res.cookie('access_token', accessToken, { httpOnly: true });
     return accessToken;
   }
 
@@ -62,12 +64,12 @@ export class AuthService {
       { ...payload },
       {
         secret: this.configService.get<string>('ACCESS_TOKEN_SECRET'),
-        expiresIn: '150sec',
+        expiresIn: this.configService.get<string>('ACCESS_TOKEN_EXPIRES'),
       },
     );
     const refreshToken = this.jwtService.sign(payload, {
       secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
-      expiresIn: '7d',
+      expiresIn: this.configService.get<string>('REFRESH_TOKEN_EXPIRES'),
     });
 
     response.cookie('access_token', accessToken, { httpOnly: true });
@@ -112,12 +114,14 @@ export class AuthService {
         invalidCredentials: 'Invalid credentials',
       });
     }
+
     return this.issueTokens(user, response);
   }
 
   async logout(response: Response) {
     response.clearCookie('access_token');
     response.clearCookie('refresh_token');
+
     return 'Successfully logged out';
   }
 }

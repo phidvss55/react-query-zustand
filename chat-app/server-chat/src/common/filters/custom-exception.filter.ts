@@ -5,7 +5,7 @@ import { GqlExceptionFilter } from '@nestjs/graphql';
 @Catch(BadRequestException)
 export class GraphqlErrorFilter implements GqlExceptionFilter {
   catch(exception: BadRequestException) {
-    console.log('exception', exception);
+    console.log('Exception in GraphqlErrorFilter', exception);
     const response = exception.getResponse();
 
     if (typeof response === 'object') {

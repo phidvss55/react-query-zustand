@@ -8,8 +8,11 @@ import MainLayouts from "../layouts/MainLayouts";
 import JoinRoomOrChatwindow from "../components/JoinRoomOrChatWindow";
 import AuthOverlay from "../components/AuthOverlay";
 import AddChatRoom from "../components/AddChatRoom";
+import ShowNotification from "../components/notification/Notification";
+import { useNotifyStore } from "../stores/notificationStore";
 
 const Home: React.FC = () => {
+  const { notification } = useNotifyStore();
   return (
     <MainLayouts>
       <div
@@ -17,6 +20,7 @@ const Home: React.FC = () => {
           position: "absolute",
         }}
       >
+        {notification.show && <ShowNotification />}
         <AuthOverlay />
         <ProfileSettings />
         <Sidebar />

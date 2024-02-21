@@ -39,6 +39,7 @@ export const useUserStore = create<UserState & UserAction>()(
     ),
     {
       name: "user-store",
+      getStorage: () => sessionStorage,
     }
   )
 );

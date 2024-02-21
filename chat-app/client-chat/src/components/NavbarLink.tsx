@@ -2,7 +2,8 @@ import { Tooltip, UnstyledButton } from "@mantine/core";
 import { useStyles } from "./style";
 
 interface NavbarLinkProps {
-  icon: React.FC<any>;
+  icon?: React.FC<any> | null;
+  avatar?: any;
   label: string;
   active?: boolean;
   onClick?(): void;
@@ -10,6 +11,7 @@ interface NavbarLinkProps {
 
 const NavbarLink = ({
   icon: Icon,
+  avatar,
   label,
   active,
   onClick,
@@ -27,7 +29,8 @@ const NavbarLink = ({
         onClick={onClick}
         className={cx(classes.link, { [classes.active]: active })}
       >
-        <Icon size="1.2rem" stroke={1.5} />
+        {Icon && <Icon size="1.2rem" stroke={1.5} />}
+        {avatar}
       </UnstyledButton>
     </Tooltip>
   );
